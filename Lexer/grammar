@@ -1,1 +1,89 @@
+// <>  - descript
+// []  - optional
+// []* - repeative
+// |   - or
 
+
+String
+: "\"" [ <unicode char without \\> | \\ <utf-8 char> ]* "\""
+| "\'" [ <unicode char without \\> | \\ <utf-8 char> ]* "\'"
+;
+
+Comment
+: #  [ <unicode char without "\n"> ]* "\n"
+| #? [ <unicode char> ]* ?#
+;
+
+Number
+: 0x [0-9A-F]* [ \. [0-9A-F]* ] [ "e" [0-9A-F]* ] [ "i" ]
+| 0o    [0-7]* [ \.    [0-7]* ] [ "e"    [0-7]* ] [ "i" ]
+|       [0-9]* [ \.    [0-9]* ] [ "e"    [0-9]* ] [ "i" ]
+| 0b     [01]* [ \.     [01]* ] [ "e"     [01]* ] [ "i" ]
+;
+
+Identifier
+: [ <unicode category Ll, Lo, Lu, So> | "_" ] [ <unicode categroy Ll, Lo, Lu, So, Sc, Nd, Nl> | "_" ]*
+;
+
+Tag
+: "$" [ "*" | "+" | "?" | "|" | "_" | "$" ] [ Identifier ]
+;
+
+lParenthesis
+: "("
+;
+
+rParenthesis
+: ")"
+;
+
+lBracket
+: "["
+;
+
+rBracket
+: "]"
+;
+
+lBrace
+: "{"
+;
+
+rBrace
+: "}"
+;
+
+Semicolon
+: ";"
+;
+
+Space
+: " "
+;
+
+Comma
+: ","
+;
+
+Tab
+: "\t"
+;
+
+Newline
+: "\"
+;
+
+ops
+: "+" | "-" | "*" | "/" | "%" | "\" | "!" | "?" 
+| ":" | "." | "=" | ">" | "^" | "&" | "|" | "~" 
+| "@" | "≠" | "≈" | "≤" | "≥" | "×" | "⋅" | "÷" 
+| "∝" | "∑" | "∏" | "∩" | "∪" | "⊆" | "⊂" | "⊄" 
+| "⊇" | "⊃" | "⊅" | "∉" | "∈" | "⊗" | "⊖" | "⊕" 
+| "¬" | "⇒" | "⇔" | "↔" | "∴" | "∵" | "∀" | "∃" 
+| "∄" | "∫" | "∮" | "∇" | "∨" | "∧" | "⊻"
+;
+
+Operator
+: [ ops ]*
+| Operator [ "<" Identifier ">" ] Operator
+;
