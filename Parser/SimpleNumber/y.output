@@ -1,0 +1,192 @@
+Grammar
+
+    0 $accept: exp $end
+
+    1 exp: "(" exp ")"
+    2    | exp "+" exp
+    3    | exp "-" exp
+    4    | exp "*" exp
+    5    | exp "/" exp
+    6    | Number
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+Number (258) 6
+"+" (259) 2
+"-" (260) 3
+"*" (261) 4
+"/" (262) 5
+"(" (263) 1
+")" (264) 1
+
+
+Nonterminals, with rules where they appear
+
+$accept (10)
+    on left: 0
+exp (11)
+    on left: 1 2 3 4 5 6, on right: 0 1 2 3 4 5
+
+
+State 0
+
+    0 $accept: . exp $end
+
+    Number  shift, and go to state 1
+    "("     shift, and go to state 2
+
+    exp  go to state 3
+
+
+State 1
+
+    6 exp: Number .
+
+    $default  reduce using rule 6 (exp)
+
+
+State 2
+
+    1 exp: "(" . exp ")"
+
+    Number  shift, and go to state 1
+    "("     shift, and go to state 2
+
+    exp  go to state 4
+
+
+State 3
+
+    0 $accept: exp . $end
+    2 exp: exp . "+" exp
+    3    | exp . "-" exp
+    4    | exp . "*" exp
+    5    | exp . "/" exp
+
+    $end  shift, and go to state 5
+    "+"   shift, and go to state 6
+    "-"   shift, and go to state 7
+    "*"   shift, and go to state 8
+    "/"   shift, and go to state 9
+
+
+State 4
+
+    1 exp: "(" exp . ")"
+    2    | exp . "+" exp
+    3    | exp . "-" exp
+    4    | exp . "*" exp
+    5    | exp . "/" exp
+
+    "+"  shift, and go to state 6
+    "-"  shift, and go to state 7
+    "*"  shift, and go to state 8
+    "/"  shift, and go to state 9
+    ")"  shift, and go to state 10
+
+
+State 5
+
+    0 $accept: exp $end .
+
+    $default  accept
+
+
+State 6
+
+    2 exp: exp "+" . exp
+
+    Number  shift, and go to state 1
+    "("     shift, and go to state 2
+
+    exp  go to state 11
+
+
+State 7
+
+    3 exp: exp "-" . exp
+
+    Number  shift, and go to state 1
+    "("     shift, and go to state 2
+
+    exp  go to state 12
+
+
+State 8
+
+    4 exp: exp "*" . exp
+
+    Number  shift, and go to state 1
+    "("     shift, and go to state 2
+
+    exp  go to state 13
+
+
+State 9
+
+    5 exp: exp "/" . exp
+
+    Number  shift, and go to state 1
+    "("     shift, and go to state 2
+
+    exp  go to state 14
+
+
+State 10
+
+    1 exp: "(" exp ")" .
+
+    $default  reduce using rule 1 (exp)
+
+
+State 11
+
+    2 exp: exp . "+" exp
+    2    | exp "+" exp .
+    3    | exp . "-" exp
+    4    | exp . "*" exp
+    5    | exp . "/" exp
+
+    "*"  shift, and go to state 8
+    "/"  shift, and go to state 9
+
+    $default  reduce using rule 2 (exp)
+
+
+State 12
+
+    2 exp: exp . "+" exp
+    3    | exp . "-" exp
+    3    | exp "-" exp .
+    4    | exp . "*" exp
+    5    | exp . "/" exp
+
+    "*"  shift, and go to state 8
+    "/"  shift, and go to state 9
+
+    $default  reduce using rule 3 (exp)
+
+
+State 13
+
+    2 exp: exp . "+" exp
+    3    | exp . "-" exp
+    4    | exp . "*" exp
+    4    | exp "*" exp .
+    5    | exp . "/" exp
+
+    $default  reduce using rule 4 (exp)
+
+
+State 14
+
+    2 exp: exp . "+" exp
+    3    | exp . "-" exp
+    4    | exp . "*" exp
+    5    | exp . "/" exp
+    5    | exp "/" exp .
+
+    $default  reduce using rule 5 (exp)
